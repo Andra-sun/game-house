@@ -4,6 +4,9 @@
     "target": "ES2020",
     "esModuleInterop": true,
     "strict": true,
-    "verbatimModuleSyntax": false
-  }
+    "verbatimModuleSyntax": false,
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"]
 }
