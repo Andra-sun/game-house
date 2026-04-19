@@ -15,6 +15,8 @@ const io = new Server(server, {
 
 setupSocket(io);
 
-server.listen(3000, "0.0.0.0", () => {
-  console.log("🔥 Server rodando na porta 3000");
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`🔥 Server rodando na porta ${PORT}`);
 });
