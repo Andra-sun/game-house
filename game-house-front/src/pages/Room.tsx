@@ -79,18 +79,45 @@ export default function Room({ roomId }: RoomProps) {
         );
 
     return (
-        <div className="min-h-screen w-full bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 p-4 md:p-6">
+        <div className="min-h-screen w-full bg-linear-to-br from-indigo-900 via-purple-900 to-pink-800 p-4 md:p-6">
             <div className="max-w-6xl mx-auto">
                 <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-6 md:p-8 border border-white/20 mb-6 w-full">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <div>
-                            <h1 className="text-3xl md:text-4xl font-bold text-white">
+                            <h1 className="text-3xl md:text-4xl font-bold text-left text-white">
                                 Sala de Jogo
                             </h1>
                             <div className="flex items-center gap-2 mt-2">
                                 <code className="bg-black/30 px-3 py-1 rounded-lg text-yellow-400 font-mono text-sm">
                                     {roomId}
                                 </code>
+                                <button
+                                    onClick={() =>
+                                        navigator.clipboard.writeText(roomId)
+                                    }
+                                    className="text-white/40 hover:text-white/80 transition-colors text-sm"
+                                    title="Copiar ID"
+                                >
+                                    📋
+                                </button>
+
+                                <button
+                                    onClick={() => {}}
+                                    className="text-white hover:text-gray-400 border rounded-full transition-colors text-sm px-2 py-1 ml-20"
+                                    title="Sair da sala"
+                                >
+                                    Sair
+                                </button>
+
+                                {isHost && (
+                                    <button
+                                        onClick={() => {}}
+                                        className="text-white border rounded-full hover:text-red-400 transition-colors text-sm px-2 py-1"
+                                        title="Apagar sala"
+                                    >
+                                        Apagar Sala
+                                    </button>
+                                )}
                             </div>
                         </div>
 
@@ -110,6 +137,8 @@ export default function Room({ roomId }: RoomProps) {
                                     </span>
                                 </div>
                             )}
+
+                            <div className="h-6 w-px bg-white/20"></div>
                         </div>
                     </div>
                 </div>
@@ -204,26 +233,26 @@ export default function Room({ roomId }: RoomProps) {
                                 onChange={(e) =>
                                     setChessTime(Number(e.target.value) * 60)
                                 }
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg mb-4 text-black"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg mb-4 text-black hidden"
                                 placeholder="Segundos"
                             />
 
                             <div className="flex gap-2 mb-4">
                                 <button
                                     onClick={() => setChessTime(5 * 60)}
-                                    className="flex-1 bg-gray-100 rounded-lg py-2"
+                                    className="flex-1 bg-gray-100 rounded-lg py-2 focus:border"
                                 >
                                     5 min
                                 </button>
                                 <button
                                     onClick={() => setChessTime(10 * 60)}
-                                    className="flex-1 bg-gray-100 rounded-lg py-2"
+                                    className="flex-1 bg-gray-100 rounded-lg py-2 focus:border"
                                 >
                                     10 min
                                 </button>
                                 <button
                                     onClick={() => setChessTime(15 * 60)}
-                                    className="flex-1 bg-gray-100 rounded-lg py-2"
+                                    className="flex-1 bg-gray-100 rounded-lg py-2 focus:border"
                                 >
                                     15 min
                                 </button>
