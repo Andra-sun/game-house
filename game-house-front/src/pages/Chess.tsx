@@ -51,7 +51,7 @@ export default function Chess({ roomId }: Props) {
         name: string;
         color: string;
     }[];
-    
+
     const myIndex = players?.findIndex((p) => p.id === playerId) ?? -1;
     const myTime = myIndex === 0 ? state.time1 : state.time2;
     const oppTime = myIndex === 0 ? state.time2 : state.time1;
@@ -61,7 +61,7 @@ export default function Chess({ roomId }: Props) {
     const gameOver = state.time1 <= 0 || state.time2 <= 0;
 
     return (
-        <div className=" bg-gray-900 flex flex-col">
+        <div className="h-screen bg-gray-900 flex flex-col">
             {gameOver && (
                 <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl p-8 text-center">
@@ -73,7 +73,7 @@ export default function Chess({ roomId }: Props) {
                 </div>
             )}
 
-            <div className="flex h-1/5 flex-col items-center justify-center pt-10">
+            <div className="flex h-1/5 flex-col items-center justify-center pt-4">
                 <div className="text-center">
                     <div
                         className="text-8xl md:text-9xl font-mono font-bold tabular-nums mb-4"
@@ -96,12 +96,12 @@ export default function Chess({ roomId }: Props) {
                 </div>
             </div>
 
-            <div className="flex h-4/5 items-center justify-center px-4 py-8">
+            <div className="flex h-full items-center justify-center px-4 py-8">
                 <button
                     onClick={handleMove}
                     disabled={state.running && !myTurn}
                     className={`
-                        w-5/6 h-full aspect-square rounded-2xl font-bold text-4xl
+                        w-full h-full rounded-2xl font-bold text-4xl
                         transition-all duration-200 transform active:scale-95 text-white
                         ${
                             !state.running || myTurn
@@ -111,7 +111,10 @@ export default function Chess({ roomId }: Props) {
                     `}
                     style={
                         myTurn || !state.running
-                            ? { boxShadow: `0 0 40px ${myColor}800`, backgroundColor:myColor }
+                            ? {
+                                  boxShadow: `0 0 40px ${myColor}800`,
+                                  backgroundColor: myColor,
+                              }
                             : {}
                     }
                 >

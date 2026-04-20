@@ -11,6 +11,8 @@ import {
     handleChessClock,
 } from "../games/xadrezTimer/chessClock";
 
+import { initPoker, handlePoker } from "../games/poker/pokerGame";
+
 export function setupSocket(io: any) {
     io.on("connection", (socket: any) => {
         socket.on("createRoom", () => {
@@ -106,6 +108,25 @@ export function setupSocket(io: any) {
             }
 
             io.emit("roomsList", rooms);
+        });
+
+        socket.on(
+            "startPoker",
+            ({ roomId, order, hasAdmin, adminId, startingChips }: any) => {
+                const room = getRoom(roomId);
+                if (!room) return;
+                initPoker(room, { order, hasAdmin, adminId, startingChips });
+                room.state.phase = "config";
+                io.to(roomId).emit("stateUpdate", room.state);
+                io.to(roomId).emit("roomUpdate", room);
+            },
+        );
+
+        socket.on("pokerAction", ({ roomId, action }: any) => {
+            const room = getRoom(roomId);
+            if (!room) return;
+            handlePoker(room, action, socket.id);
+            io.to(roomId).emit("stateUpdate", room.state);
         });
     });
 }

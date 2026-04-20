@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { socket } from "../socket/socket";
 import type { Room, Player } from "../types/room";
 import Chess from "./Chess";
+import Poker from "./Poker";
 
 type RoomProps = {
     roomId: string;
@@ -18,6 +19,7 @@ export default function Room({ roomId }: RoomProps) {
     const [state, setState] = useState<GameState>({});
     const [showChessSetup, setShowChessSetup] = useState(false);
     const [chessTime, setChessTime] = useState(300);
+    const [isPokerActive, setIsPokerActive] = useState(false);
 
     const games = [
         { name: "Xadrez", icon: "♟️", maxPlayers: 2 },
@@ -45,6 +47,11 @@ export default function Room({ roomId }: RoomProps) {
             return;
         }
 
+        if (gameName === "Poker") {
+            setIsPokerActive(true);
+            return;
+        }
+
         socket.emit("startGame", { roomId, game: gameName });
     }
 
@@ -59,6 +66,19 @@ export default function Room({ roomId }: RoomProps) {
 
     if (state?.game === "chess-clock") {
         return <Chess roomId={roomId} />;
+    }
+
+    if (isPokerActive && room) {
+        return (
+            <Poker
+                roomId={roomId}
+                roomPlayers={room.players.map((p) => ({
+                    id: p.id,
+                    name: p.name,
+                    color: p.color,
+                }))}
+            />
+        );
     }
 
     const isHost =
@@ -88,22 +108,18 @@ export default function Room({ roomId }: RoomProps) {
                                 Sala de Jogo
                             </h1>
                             <div className="flex items-center gap-2 mt-2">
-                                <code className="bg-black/30 px-3 py-1 rounded-lg text-yellow-400 font-mono text-sm">
-                                    {roomId}
-                                </code>
-                                <button
+                                <code
                                     onClick={() =>
                                         navigator.clipboard.writeText(roomId)
                                     }
-                                    className="text-white/40 hover:text-white/80 transition-colors text-sm"
-                                    title="Copiar ID"
+                                    className="bg-black/30 px-3 py-1 rounded-lg text-yellow-400 font-mono text-sm"
                                 >
-                                    📋
-                                </button>
+                                    {roomId}
+                                </code>
 
                                 <button
                                     onClick={() => {}}
-                                    className="text-white hover:text-gray-400 border rounded-full transition-colors text-sm px-2 py-1 ml-20"
+                                    className="text-white hover:text-gray-400 border rounded-full transition-colors text-sm px-2 py-1 md:ml-20"
                                     title="Sair da sala"
                                 >
                                     Sair
