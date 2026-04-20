@@ -96,12 +96,12 @@ export default function Chess({ roomId }: Props) {
                 </div>
             </div>
 
-            <div className="flex-1 items-center justify-center px-4 py-8">
+            <div className="flex h-4/5 items-center justify-center px-4 py-8">
                 <button
                     onClick={handleMove}
                     disabled={state.running && !myTurn}
                     className={`
-                        w-5/6 aspect-square rounded-2xl font-bold text-4xl
+                        w-5/6 h-full aspect-square rounded-2xl font-bold text-4xl
                         transition-all duration-200 transform active:scale-95 text-white
                         ${
                             !state.running || myTurn
